@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "dixitApp",
+    "slug": "dixitApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
