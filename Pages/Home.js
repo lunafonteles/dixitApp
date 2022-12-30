@@ -24,16 +24,16 @@ export default function Home({ navigation }) {
       <Text style={styles.title}>Contador Dixit</Text>
       <Text></Text>
       <CustomButton
-        pressFunction={() =>
+        onPress={() =>
           navigation.navigate('Jogadores')}
         title="Novo Jogo"
       ></CustomButton>
       <CustomButton
-        pressFunction={loadGame}
+        onPress={loadGame}
         title="Continuar Jogo"
       ></CustomButton>
       <CustomButton
-        pressFunction={() =>
+        onPress={() =>
           navigation.navigate('Regras')}
         title="Regras"
       ></CustomButton>
