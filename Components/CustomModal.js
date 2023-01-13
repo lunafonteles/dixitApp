@@ -10,20 +10,19 @@ import {
   TextInput,
 } from "react-native";
 import CustomButton from "./CustomButton";
+import { SavePlayer } from "../Services/PlayerService";
 
 const CustomModal = (props) => {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
-  const [color, setColor] = useState({});
+  const [color, setColor] = useState("");
   const [name, setName] = useState("");
-  var players= [];
   var player = {
     name: name, color: color
   }
 
   const addPlayer = (player) => {
-    players.push(player);
-    props.closeModal()
-    console.log(players)
+    SavePlayer(player);
+    props.closeModal();
   };
 
   return (
@@ -47,7 +46,7 @@ const CustomModal = (props) => {
           {colorPickerVisible ? (
             <ColorPicker
               color={color}
-              onColorChangeComplete={() => setColor(color)}
+              onColorChangeComplete={color => setColor(color)}
               thumbSize={30}
               sliderSize={30}
               noSnap={true}

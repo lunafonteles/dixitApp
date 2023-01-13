@@ -1,23 +1,18 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as storage from "../Utils/storage";
 
-export async function SavePlayer(name, color, storyteller, points){
-
-    let player = {name: name, color: color,storyteller : storyteller, points: points}
-
+export async function SavePlayer(player){
+    player.storyteller = false;
+    player.points = 0;
     console.log(player)
-    await storage.storeData(name,player);
+    await storage.storeData(player.name, player);
 }
 
-export async function UpdatePlayer(name, color, storyteller, points){
-
-    let player = {name: name, color: color, points: points}
-
-    await storage.editData(name, player);
+export async function UpdatePlayer(player){
+    await storage.editData(player.name, player);
 }
 
 export async function GetPlayer(name){
-
     let player =  await storage.getData(name);
 
     if(!player)
@@ -27,15 +22,13 @@ export async function GetPlayer(name){
 }
 
 export async function GetAllPlayers(){
-    playerNames =  await storage.getAllKeys();
-
+    let playerNames =  await storage.getAllKeys();
     playerNames = playerNames.filter(name => !name.includes("game"));
-
-    return await AsyncStorage.multiGet(playerNames)
+    let players = await AsyncStorage.multiGet(playerNames)
+    return players.map(([key, value]) => JSON.parse(value));
 }
 
 export async function DeletePlayer(name){
-
     let player =  await storage.getData(name);
 
     if(player)
