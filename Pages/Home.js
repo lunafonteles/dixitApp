@@ -1,11 +1,14 @@
 import React from 'react';
 import CustomButton from '../Components/CustomButton';
-import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
+import logo from '../assets/dixit.png'
+import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions } from 'react-native';
 export default function Home({ navigation }) {
 
   const loadGame = () => {
     Alert.alert('Function Called...');
   }
+
+  const width = Dimensions.get('screen').width;
 
   const styles = StyleSheet.create({
     container: {
@@ -17,11 +20,17 @@ export default function Home({ navigation }) {
     title: {
       fontSize: 50,
     },
+    logo: {
+      width: "100%",
+      height: 328/690 * width
+
+    }
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Contador Dixit</Text>
+      <Image source={logo} style={styles.logo}></Image>
+      <Text style={styles.title}>Contador</Text>
       <Text></Text>
       <CustomButton
         onPress={() =>

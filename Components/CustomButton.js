@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+
 export default function CustomButton(props) {
   const styles = StyleSheet.create({
     container: {
@@ -9,11 +10,11 @@ export default function CustomButton(props) {
 
     },
     pressable: {
+      width: "100%",
       textAlign: "center",
       margin: 10,
     },
     title: {
-        display: "flex",
         color: "white",
         backgroundColor: props.style ? props.style : "#483D8B",
         padding: 8,

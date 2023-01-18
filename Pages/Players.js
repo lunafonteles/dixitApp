@@ -3,6 +3,7 @@ import CustomButton from "../Components/CustomButton";
 import CustomModal from "../Components/CustomModal";
 import { GetAllPlayers } from "../Services/PlayerService";
 import { Button, StyleSheet, Text, View, Alert } from "react-native";
+import PlayersList from "../Components/playersList";
 
 export default function Players({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,20 +36,10 @@ export default function Players({ navigation }) {
       backgroundColor: "#696969",
       alignItems: "center",
       justifyContent: "space-between",
+      width: "100%",
     },
-    title: {
-      fontSize: 50,
-    },
-    tableContainer: {
-    //   alignItems: "center",
-    //   justifyContent: "space-between",
-    },
-    tableItem: {
-      backgroundColor: "white",
-      fontSize: 25,
-      width: 150,
 
-    },
+
   });
 
   return (
@@ -62,19 +53,13 @@ export default function Players({ navigation }) {
           color="#483D8B"
         />
       </View>
-      {players.length > 0 ? (
+      {players.length > 0 ?  (
+        
         <View>
-          {players.map((p) => (
-            <Text key={p.name} style={styles.tableContainer}>
-              <Text style={styles.tableItem}>{p.name} </Text>
-              <Text style={{ backgroundColor: p.color }}>     </Text>
-              {"\n"}
-            </Text>
-          ))}
-        </View>
-      ) : (
-        <Text>Necessário ao menos 3 jogadores</Text>
-      )}
+          <PlayersList
+            players={players}>
+          </PlayersList>
+        </View> ) : (<Text>Necessário ao menos 3 jogadores</Text>)}
 
       <View>
         <CustomButton
