@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import ColorPicker from "react-native-wheel-color-picker";
+import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
+import CustomButton from "../../Components/CustomButton";
+import { SavePlayer, ResetAll, GetAllPlayers } from "../../Services/PlayerService";
 
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from "react-native";
-import CustomButton from "./CustomButton";
-import { SavePlayer } from "../Services/PlayerService";
-
-const CustomModal = (props) => {
+const AddPlayerModal = (props) => {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
@@ -21,8 +13,15 @@ const CustomModal = (props) => {
   }
 
   const addPlayer = (player) => {
-    SavePlayer(player);
-    props.closeModal();
+    console.log("antes",props.previousPlayers)
+    if(props.previousPlayers === false) {
+      // ResetAll();
+      // props.setPreviousPlayers(true)
+      console.log("depois",props.previousPlayers)
+    } 
+      SavePlayer(player);
+      props.closeModal();
+      //renderizar de novo a lista
   };
 
   return (
@@ -113,10 +112,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   title: {
-    // display: "flex",
     color: "white",
     marginTop: 10
-    // alignSelf: "flex-start"
   },
   input: {
     backgroundColor: "#FFF",
@@ -127,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomModal;
+export default AddPlayerModal;

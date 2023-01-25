@@ -7,28 +7,27 @@ export default function CustomButton(props) {
       display: "flex",
       alignContent: "center",
       justifyContent: "center",
-
+      borderRadius: 10,
+      backgroundColor: props.style ? props.style : "#464140",
+      marginBottom: 10
     },
     pressable: {
       width: "100%",
       textAlign: "center",
       margin: 10,
+      
+      
     },
     title: {
-        color: "white",
-        backgroundColor: props.style ? props.style : "#483D8B",
-        padding: 8,
+        color: "#B4A266",
         width: props.width ? props.width : 200,
-
+        textAlign: "center",
     },
   });
   return (
     <View style={styles.container}>
-      <Pressable 
-        style={styles.pressable} 
-        onPress={props.onPress}
-        >
-            <Text style={styles.title}>{props.title}</Text>
+      <Pressable style={styles.pressable} onPress={props.onPress}>
+        <Text style={styles.title}>{props.title}</Text>
       </Pressable>
     </View>
   );

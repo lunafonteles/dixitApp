@@ -13,12 +13,13 @@ export default function Home({ navigation }) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#48D1CC',
+      backgroundColor: '#6673B4',
       alignItems: 'center',
       justifyContent: 'center',
     },
     title: {
-      fontSize: 50,
+      fontSize: 40,
+      color: "#464140"
     },
     logo: {
       width: "100%",
@@ -29,8 +30,8 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo}></Image>
       <Text style={styles.title}>Contador</Text>
+      <Image source={logo} style={styles.logo}></Image>
       <Text></Text>
       <CustomButton
         onPress={() =>

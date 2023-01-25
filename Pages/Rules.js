@@ -5,7 +5,7 @@ export default function Rules() {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: '#48D1CC',
+            backgroundColor: '#6673B4',
             alignItems: 'center',
             justifyContent: 'flex-start',
             padding: 35,
