@@ -7,9 +7,12 @@ export default function Player (props) {
     const player = {...props.item}
 
     function deletePlayer(name) {
-      console.log(name)
       DeletePlayer(name);
-      GetAllPlayers()
+      props.playerState('DELETE')
+    }
+
+    function updatePlayer(name) {
+      props.playerState('UPDATE', name)
     }
 
     const styles = StyleSheet.create({
@@ -39,6 +42,7 @@ export default function Player (props) {
               <Text style={styles.tableName}>{player.name} </Text>
               <View style={{flexDirection: "row"}}>
                 <Text style={styles.tableImg}>       </Text>
+                <Feather name="edit" size={25} color="white" onPress={() => updatePlayer(player.name)}></Feather>
                 <Feather name="trash-2" size={25} color="white" onPress={() => deletePlayer(player.name)}></Feather>
               </View>
       </TouchableOpacity >

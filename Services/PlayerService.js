@@ -23,7 +23,14 @@ export async function GetAllPlayers(){
     let playerNames =  await storage.getAllKeys();
     playerNames = playerNames.filter(name => !name.includes("game"));
     let players = await AsyncStorage.multiGet(playerNames)
-    return players.map(([key, value]) => JSON.parse(value));
+    return players.map(([key, value]) => {
+        try {
+            return JSON.parse(value);
+        } catch (error) {
+            console.error("Error parsing JSON:", error);
+            return null; 
+        }
+    }).filter(player => player !== null);
 }
 
 export async function DeletePlayer(name){
@@ -91,6 +98,15 @@ export async function PointsSum(players){
     };
     console.log(players)
 }
+
+export async function clearAsyncStorage() {
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage foi limpo com sucesso.');
+    } catch (error) {
+      console.error('Erro ao limpar AsyncStorage:', error);
+    }
+  }
 
 export async function ChangeTurn(players){
     var players = GetAllPlayers();

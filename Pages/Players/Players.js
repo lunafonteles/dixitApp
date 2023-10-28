@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
-import { GetAllPlayers, CreateGame } from "../../Services/PlayerService";
+import { GetAllPlayers, CreateGame, UpdatePlayer } from "../../Services/PlayerService";
 import { FlatList, StyleSheet, Text, View, Alert } from "react-native";
 import Player from "./Player";
 
@@ -9,6 +9,8 @@ export default function Players({ navigation }, props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [players, setPlayers] = useState([]);
   const [previousPlayers, setPreviousPlayers] = useState(false);
+  const [editPlayer, setEditPlayer] = useState(0);
+
   const [gameOn, setGameOn] = useState(false);
 
   async function fetchPreviousPlayers() {
@@ -21,26 +23,40 @@ export default function Players({ navigation }, props) {
     Alert.alert("nao tem jogadores")
   }
 
+  function fetchPlayers() {
+    GetAllPlayers().then(res => {
+      setPlayers(res) 
+    })
+  }
+
   useEffect(() => {
     
   }, []);
 
   const closeModal = () => {
     setModalVisible(false);
+    fetchPlayers()
   };
 
-  const editPlayer = () => {
-    Alert.alert("editar player")
+  const UpdatePlayerState = (state, id) => {
+    if(state == 'DELETE') {
+      fetchPlayers()
+    } else if (state = 'UPDATE') {
+      setModalVisible(true)
+      setEditPlayer(id)
+    }
   }
 
-  const startGame = (item) => {
+  const startGame = () => {
     if(players.length < 3) {
       Alert.alert("Não existem jogadores suficientes")
-      return
+      // alerta n exibe
+    } else {
+      CreateGame(players);
+      // setgameOn(true);
+      navigation.navigate('Jogo', players)
     }
-    CreateGame(players);
-    // setgameOn(true);
-    navigation.navigate('Jogo', players)
+    
   };
 
   const styles = StyleSheet.create({
@@ -70,12 +86,12 @@ export default function Players({ navigation }, props) {
       <FlatList contentContainerStyle={styles.flatContainer}
       data={players} 
       renderItem={({item}) => 
-          <Player onPress={editPlayer} item={item} />
+          <Player playerState={UpdatePlayerState} item={item} />
       } 
       keyExtractor={({name}) => name}
       ListHeaderComponent={ () => {
         return <>
-        <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers}/>
+        <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} editPlayer={editPlayer} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers}/>
         <View style={styles.sideBtn}>
           <CustomButton
             onPress={() => setModalVisible(true)}

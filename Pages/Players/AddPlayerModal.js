@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ColorPicker from "react-native-wheel-color-picker";
 import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
 import CustomButton from "../../Components/CustomButton";
-import { SavePlayer, ResetAll, GetAllPlayers } from "../../Services/PlayerService";
+import { SavePlayer, GetPlayer, clearAsyncStorage, UpdatePlayer } from "../../Services/PlayerService";
 
 const AddPlayerModal = (props) => {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
@@ -11,17 +11,33 @@ const AddPlayerModal = (props) => {
   var player = {
     name: name, color: color
   }
+  if(props.editPlayer != 0) {
+
+  }
+
+  useEffect(() => {
+    if (props.editPlayer !== 0) {
+      GetPlayer(props.editPlayer).then(res => {
+        setName(res.name);
+        setColor(res.color);
+        if(res.color) {
+          setColorPickerVisible(true)
+        }
+      }) 
+    }
+  }, [props.editPlayer]);
 
   const addPlayer = (player) => {
-    console.log("antes",props.previousPlayers)
     if(props.previousPlayers === false) {
-      // ResetAll();
-      // props.setPreviousPlayers(true)
-      console.log("depois",props.previousPlayers)
+      clearAsyncStorage();
+      props.setPreviousPlayers(true)
     } 
+    if (props.editPlayer != 0) {
+      UpdatePlayer(props.editPlayer)
+    } else {
       SavePlayer(player);
+    }
       props.closeModal();
-      //renderizar de novo a lista
   };
 
   return (
@@ -59,7 +75,7 @@ const AddPlayerModal = (props) => {
                 ? setColorPickerVisible(false)
                 : setColorPickerVisible(true)
             }
-            title={colorPickerVisible ? "Fechar cor" : "Add cor"}
+            title={colorPickerVisible ? "Fechar cor" : props.editPlayer ? "Editar cor" : "Adicionar cor"}
             width={90}
             color={colorPickerVisible ? "grey" : "#483D8B"}
           />
