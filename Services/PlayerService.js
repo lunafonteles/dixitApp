@@ -64,13 +64,17 @@ export async function GetOtherPlayers(players){
     return others;
 }
 
-// export async function Vote(player, card){
-//     player.votado == card;
-//     players[0].storyteller = true;
-// }
+export async function ResetPoints(players){
+    players.forEach(player => {
+        player.points = 0
+        storage.editData(player.name, players);
+    })
+    return players;
+}
 
 export async function PointsSum(players){
-    var storyteller = GetStoryteller();
+    var players = await GetAllPlayers()
+    var storyteller = players.find(player => player.storyteller);
 
     function GetExtraPoints(player) {
         players.forEach(element => 
