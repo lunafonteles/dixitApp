@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
-import { GetAllPlayers, CreateGame, UpdatePlayer } from "../../Services/PlayerService";
-import { FlatList, StyleSheet, Text, View, Alert } from "react-native";
+import { GetAllPlayers, CreateGame, ResetPoints } from "../../Services/PlayerService";
+import { FlatList, StyleSheet, View, Alert } from "react-native";
 import Player from "./Player";
 
 export default function Players({ navigation }, props) {
@@ -10,8 +10,6 @@ export default function Players({ navigation }, props) {
   const [players, setPlayers] = useState([]);
   const [previousPlayers, setPreviousPlayers] = useState(false);
   const [editPlayer, setEditPlayer] = useState(0);
-
-  const [gameOn, setGameOn] = useState(false);
 
   async function fetchPreviousPlayers() {
     var arr = await GetAllPlayers();
@@ -35,7 +33,6 @@ export default function Players({ navigation }, props) {
 
   const closeModal = () => {
     setModalVisible(false);
-    fetchPlayers()
   };
 
   const UpdatePlayerState = (state, id) => {
@@ -50,13 +47,12 @@ export default function Players({ navigation }, props) {
   const startGame = () => {
     if(players.length < 3) {
       Alert.alert("Não existem jogadores suficientes")
-      // alerta n exibe
     } else {
-      CreateGame(players);
-      // setgameOn(true);
-      navigation.navigate('Jogo', players)
+      ResetPoints(players).then(res => {
+        CreateGame(res);
+        navigation.navigate('Jogo', res)
+      })
     }
-    
   };
 
   const styles = StyleSheet.create({

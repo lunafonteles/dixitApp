@@ -5,24 +5,17 @@ import CustomButton from "../../Components/CustomButton";
 
 const VoteModal = (props) => {
   const [voteOptions, setVoteOptions] = useState(props.data);
-  const [selected, setSelected] = useState({});
-  // const [players, setPlayers] = useState([]);
+  const [selected, setSelected] = useState('');
 
   useEffect(() => {
     setVoteOptions(props.data);
   }, [props.data]);
 
-  function voteNow(itemValue) {
-    const updatedPlayer = { ...props.playingNow };
-    updatedPlayer.votado = itemValue;
-    props.updateVotado(updatedPlayer);
-    props.closeModal();
-  }
-
   function voteOnClose() {
     const updatedPlayer = { ...props.playingNow };
-    updatedPlayer.votado = voteOptions[0].name;
-    props.updateVotado(updatedPlayer);
+    updatedPlayer.voted = selected ? selected : props.data[0].name;
+    props.updatevoted(updatedPlayer);
+    setSelected("")
     props.closeModal();
   }
 
@@ -39,9 +32,9 @@ const VoteModal = (props) => {
         <View style={styles.modalView}>
           <Picker
             style={styles.input}
-            selectedValue={props.playingNow.votado}
-            onValueChange={(itemValue) => voteNow(itemValue)}
-          >
+            // selectedValue={props.playingNow.voted}
+            onValueChange={(itemValue) => setSelected(itemValue)}
+                      >
             {voteOptions.map((option) => (
               <Picker.Item
                 label={option.name}

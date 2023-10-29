@@ -3,7 +3,7 @@ import { SectionList, StyleSheet, Text, View, Alert } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "../../Components/CustomButton";
 import PlayerGame from "./PlayerGame";
-import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn } from "../../Services/PlayerService";
+import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum } from "../../Services/PlayerService";
 import VoteModal from "./VoteModal";
 
 export default function Game({ navigation }) {
@@ -18,21 +18,51 @@ export default function Game({ navigation }) {
   useEffect(() => {
     GetStoryteller(route.params).then((data) => setStoryteller([data]));
     GetOtherPlayers(route.params).then((data) => setOtherPlayers(data));
-    // console.log(player)
   }, [route.params]);
 
   function finishRound() {
     var haveToVote = [];
     otherPlayers.forEach(element => {
-        !element.votado? haveToVote.push(element.name): console.log(element.name, " ja votou")
+        !element.voted? haveToVote.push(element.name): console.log(element.name, " ja votou")
     });
     if(haveToVote.length > 0) {
         Alert.alert(`Falta votar: ${haveToVote}`);
         return
     }
-    setTurn(turn + 1)
-    ChangeTurn()
+    updateTurn()
+  }
 
+  function updateTurn() {
+    var newPlayerList = [];
+    var newOthers = []
+    PointsSum().then(r => {
+      ChangeTurn(r).then(res => {
+        newPlayerList = res
+        newPlayerList.forEach(player => {
+          if(player.storyteller) {
+            setStoryteller(player)
+          } else {
+            newOthers.push(player)
+          }
+          setOtherPlayers(newOthers)
+        })
+      })
+    })
+    setTurn(turn + 1)
+  }
+
+  function saveVote(playerWithVote) {
+    console.log("playerWithVote", playerWithVote)
+    UpdatePlayer(playerWithVote)
+    UpdatePlayer(storyteller[0])
+
+    const updatedPlayers = otherPlayers.map((player) => {
+      if (player.name === playerWithVote.name) {
+        return { ...player, voted: playerWithVote.voted };
+      }
+      return player;
+    })
+    setOtherPlayers(updatedPlayers);
   }
 
   const openModal = (playerKey) => {
@@ -97,7 +127,7 @@ export default function Game({ navigation }) {
           />
         </View>
       </View>
-      <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={route.params.filter((obj) => obj.name != player.name)} playingNow={player} updateVotado={setPlayer}/>
+      <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={route.params.filter((obj) => obj.name != player.name)} playingNow={player} updatevoted={saveVote}/>
 
       <View style={styles.list}>
         {storyteller && (
