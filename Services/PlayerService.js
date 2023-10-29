@@ -72,7 +72,7 @@ export async function ResetPoints(players){
     return players;
 }
 
-export async function PointsSum(players){
+export async function PointsSum(){
     var players = await GetAllPlayers()
     var storyteller = players.find(player => player.storyteller);
 
