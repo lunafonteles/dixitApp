@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
-import { GetAllPlayers, CreateGame, ResetPoints } from "../../Services/PlayerService";
+import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
 import { FlatList, StyleSheet, View, Alert } from "react-native";
 import Player from "./Player";
 
@@ -33,6 +33,7 @@ export default function Players({ navigation }, props) {
 
   const closeModal = () => {
     setModalVisible(false);
+    fetchPlayers();
   };
 
   const UpdatePlayerState = (state, id) => {
@@ -48,7 +49,8 @@ export default function Players({ navigation }, props) {
     if(players.length < 3) {
       Alert.alert("Não existem jogadores suficientes")
     } else {
-      ResetPoints(players).then(res => {
+      ResetGameData(players).then(res => {
+        console.log(res)
         CreateGame(res);
         navigation.navigate('Jogo', res)
       })
