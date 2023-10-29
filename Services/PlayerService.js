@@ -95,7 +95,7 @@ export async function PointsSum(players){
         storyteller.points -= 2;
     }
 
-    for(i=0; i<players.length; i++) {
+    for(let i=0; i<players.length; i++) {
         if(players[i].votado == storyteller.name)
             players[i].points += 3; 
             GetExtraPoints(players[i])
@@ -113,7 +113,7 @@ export async function clearAsyncStorage() {
   }
 
 export async function ChangeTurn(players){
-    var players = GetAllPlayers();
+    var players = await GetAllPlayers();
     for (let i = 0; i < players.length; i++) {
         if (players[i].storyteller === true) {
             players[i + 1].storyteller = true;
@@ -125,5 +125,5 @@ export async function ChangeTurn(players){
     players.forEach(element => {
         element.votado == "";
     });
-
+    return players
 }
