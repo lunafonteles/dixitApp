@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomButton from '../Components/CustomButton';
-import logo from '../assets/dixit.png'
-import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions } from 'react-native';
+import bgImage from '../assets/pixitbg.png'; 
+import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions, ImageBackground } from 'react-native';
 export default function Home({ navigation }) {
 
   const loadGame = () => {
@@ -25,13 +25,18 @@ export default function Home({ navigation }) {
       width: "100%",
       height: 328/690 * width
 
+    },
+    backgroundImage: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Contador</Text>
-      <Image source={logo} style={styles.logo}></Image>
+    <ImageBackground source={bgImage} style={styles.backgroundImage}> 
       <Text></Text>
       <CustomButton
         onPress={() =>
@@ -48,7 +53,7 @@ export default function Home({ navigation }) {
         title="Regras"
       ></CustomButton>
       <StatusBar style="auto" />
-    </View>
+    </ImageBackground>
   );
 
 }

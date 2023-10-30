@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
 import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
-import { FlatList, StyleSheet, View, Alert } from "react-native";
+import { FlatList, StyleSheet, View, Alert, ImageBackground } from "react-native";
 import Player from "./Player";
+import bgImage from '../../assets/frame.png'; 
 
 export default function Players({ navigation }, props) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,10 +27,6 @@ export default function Players({ navigation }, props) {
       setPlayers(res) 
     })
   }
-
-  useEffect(() => {
-    
-  }, []);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -59,7 +56,7 @@ export default function Players({ navigation }, props) {
 
   const styles = StyleSheet.create({
     flatContainer: {
-      backgroundColor: "#6673B4",
+      // backgroundColor: "#6673B4",
       height: "100%",
       alignItems: "center",
       paddingVertical: 100,
@@ -72,15 +69,25 @@ export default function Players({ navigation }, props) {
       top: 10,
       right: -25,
     },
+    BackBtn: {
+      position: "absolute",
+      top: 10,
+      right: 200
+    },
     description: {
       marginTop: 50,
       marginBottom: -50,
       fontSize: 15
     },
-
+backgroundImage: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+    }
   });
   
   return (
+    <ImageBackground source={bgImage} style={styles.backgroundImage}> 
       <FlatList contentContainerStyle={styles.flatContainer}
       data={players} 
       renderItem={({item}) => 
@@ -90,6 +97,13 @@ export default function Players({ navigation }, props) {
       ListHeaderComponent={ () => {
         return <>
         <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} editPlayer={editPlayer} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers}/>
+        <View style={styles.BackBtn}>
+          <CustomButton
+            onPress={() => navigation.navigate('Home')}
+            title="Voltar"
+            width={90}
+          />
+        </View>
         <View style={styles.sideBtn}>
           <CustomButton
             onPress={() => setModalVisible(true)}
@@ -114,5 +128,6 @@ export default function Players({ navigation }, props) {
       ListFooterComponentStyle={{ position: "absolute", bottom: 10 }}
       >
       </FlatList>
+      </ImageBackground>
   );
 }

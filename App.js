@@ -12,7 +12,9 @@ export default function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{
+              headerShown: false  
+            }}>
             <Stack.Screen name="Home" component={Home} options={{title: 'Home'}}/>
             <Stack.Screen name="Regras" component={Rules} />
             <Stack.Screen name="Jogadores" component={Players} />
