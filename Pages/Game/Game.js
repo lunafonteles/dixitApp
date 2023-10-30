@@ -33,18 +33,13 @@ export default function Game({ navigation }) {
   }
 
   function updateTurn() {
-    var newPlayerList = [];
-    var newOthers = []
     PointsSum().then(r => {
       ChangeTurn(r).then(res => {
-        newPlayerList = res
-        newPlayerList.forEach(player => {
-          if(player.storyteller) {
-            setStoryteller(player)
-          } else {
-            newOthers.push(player)
-          }
-          setOtherPlayers(newOthers)
+        GetStoryteller(res).then(p => {
+          setStoryteller([p])
+        })
+        GetOtherPlayers(res).then(others => {
+          setOtherPlayers(others)
         })
       })
     })
@@ -52,7 +47,6 @@ export default function Game({ navigation }) {
   }
 
   function saveVote(playerWithVote) {
-    console.log("playerWithVote", playerWithVote)
     UpdatePlayer(playerWithVote)
     UpdatePlayer(storyteller[0])
 

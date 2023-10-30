@@ -68,6 +68,7 @@ export async function ResetGameData(players){
     players.forEach(player => {
         player.points = 0
         player.voted = ''
+        player.storyteller = false
         storage.editData(player.name, player);
     })
     return players;
@@ -129,6 +130,8 @@ export async function ChangeTurn(players){
 
     players.forEach(element => {
         element.voted == "";
+        UpdatePlayer(element)
+
     });
     return players
 }
