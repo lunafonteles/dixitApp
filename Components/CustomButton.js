@@ -15,11 +15,9 @@ export default function CustomButton(props) {
       width: "100%",
       textAlign: "center",
       margin: 10,
-      
-      
     },
     title: {
-        color: "#B4A266",
+        color: "white",
         width: props.width ? props.width : 200,
         textAlign: "center",
     },

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
 import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
-import { FlatList, StyleSheet, View, Alert } from "react-native";
+import { FlatList, StyleSheet, View, Alert, ImageBackground } from "react-native";
 import Player from "./Player";
+import background from '../../assets/3.webp'
 
 export default function Players({ navigation }, props) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,18 +64,24 @@ export default function Players({ navigation }, props) {
 
   const styles = StyleSheet.create({
     flatContainer: {
-      backgroundColor: "#6673B4",
+      // backgroundColor: "#6673B4",
       height: "100%",
       alignItems: "center",
       paddingVertical: 100,
       paddingHorizontal: 30,
-      justifyContent: "flex-start"
+      justifyContent: "flex-start",
+      // maxHeight: 300
     },  
+    background: {
+      flex: 1,
+      width: '100%',
+      resizeMode: 'stretch',
+    },
     sideBtn: {
       alignSelf: "flex-end",
       position: "absolute",
       top: 10,
-      right: -25,
+      right: -20,
     },
     description: {
       marginTop: 50,
@@ -85,6 +92,7 @@ export default function Players({ navigation }, props) {
   });
   
   return (
+    <ImageBackground source={background} style={styles.background}>
       <FlatList contentContainerStyle={styles.flatContainer}
       data={players} 
       renderItem={({item}) => 
@@ -118,5 +126,6 @@ export default function Players({ navigation }, props) {
       ListFooterComponentStyle={{ position: "absolute", bottom: 10 }}
       >
       </FlatList>
+    </ImageBackground>
   );
 }

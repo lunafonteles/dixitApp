@@ -20,15 +20,16 @@ export default function Player (props) {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            backgroundColor: "black",
+            backgroundColor: "#464140",
             paddingHorizontal: 10,
             minWidth: "100%",
             maxWidth: "100%",
+            borderRadius: 10
           },
           tableName: {
             color: "white",
             fontSize: 25,
-            lineHeight: 45,
+            lineHeight: 35,
           },
           tableImg: {
             backgroundColor: player.color,
