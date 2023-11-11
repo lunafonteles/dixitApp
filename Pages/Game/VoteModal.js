@@ -8,12 +8,20 @@ const VoteModal = (props) => {
   const [selected, setSelected] = useState('');
 
   useEffect(() => {
-    setVoteOptions(props.data);
+    const sortedData = [...props.data];
+    const storytellerIndex = sortedData.findIndex(item => item.storyteller === true);
+  
+    if (storytellerIndex !== -1) {
+      const storytellerItem = sortedData.splice(storytellerIndex, 1);
+      sortedData.unshift(...storytellerItem);
+    }
+
+    setVoteOptions(sortedData);
   }, [props.data]);
 
   function voteOnClose() {
     const updatedPlayer = { ...props.playingNow };
-    updatedPlayer.voted = selected ? selected : props.data[0].name;
+    updatedPlayer.voted = selected ? selected : voteOptions[0].name;
     props.updatevoted(updatedPlayer);
     setSelected("")
     props.closeModal();

@@ -50,7 +50,6 @@ export default function Players({ navigation }, props) {
       Alert.alert("Não existem jogadores suficientes")
     } else {
       ResetGameData(players).then(res => {
-        console.log(res)
         CreateGame(res);
         navigation.navigate('Jogo', res)
       })

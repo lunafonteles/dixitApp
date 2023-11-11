@@ -2,10 +2,17 @@ import React from 'react';
 import CustomButton from '../Components/CustomButton';
 import logo from '../assets/dixit.png'
 import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions } from 'react-native';
+import { GetAllPlayers, GetTurn } from '../Services/PlayerService';
 export default function Home({ navigation }) {
 
   const loadGame = () => {
-    Alert.alert('Function Called...');
+    GetTurn().then(res => {
+      if(!res) {
+        Alert.alert("Não existe um jogo em andamento");
+      } else {
+        GetAllPlayers().then(players => navigation.navigate('Jogo', players))
+      }
+    });
   }
 
   const width = Dimensions.get('screen').width;

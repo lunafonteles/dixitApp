@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as storage from "../Utils/storage";
+import { Alert } from "react-native";
 
 export async function SavePlayer(player){
     player.storyteller = false;
@@ -15,12 +16,13 @@ export async function UpdatePlayer(player){
 export async function GetPlayer(name){
     let player =  await storage.getData(name);
     if(!player)
-        console.error('Player doesnt exist '+ name, code);
+        console.error('Player doesnt exist '+ name);
     return player;
 }
 
 export async function GetAllPlayers(){
-    let playerNames =  await storage.getAllKeys();
+    let result =  await storage.getAllKeys();
+    let playerNames = result.filter(element => element != "turn")
     playerNames = playerNames.filter(name => !name.includes("game"));
     let players = await AsyncStorage.multiGet(playerNames)
     return players.map(([key, value]) => {
@@ -38,7 +40,7 @@ export async function DeletePlayer(name){
     if(player)
         await storage.removeData(name);
     else
-        console.error('Player doesnt exist '+ name, code);
+        console.error('Player doesnt exist '+ name);
 }
 
 export async function ResetAll(){
@@ -48,18 +50,24 @@ export async function ResetAll(){
 
 export async function CreateGame(players){
     players[0].storyteller = true;
+    SaveTurn(1)
 }
 
 export async function GetStoryteller(players){
     var storyteller = players.find(function(p) {
         return p.storyteller == true;
     })
+    storyteller.voted = "";
     return storyteller;
 }
 
 export async function GetOtherPlayers(players){
     var others = players.filter(function(p) {
         return p.storyteller == false;
+    })
+    others.forEach( p => {
+        p.voted = "";
+        UpdatePlayer(p)
     })
     return others;
 }
@@ -79,14 +87,13 @@ export async function PointsSum(){
     var storyteller = players.find(player => player.storyteller);
 
     function GetExtraPoints(player) {
-        players.forEach(element => 
-            element.name == player.voted && element.name != storyteller.name ? element.points += 1 : element = element)
+        players.forEach(element => player.name == element.voted && player.name != storyteller.name ? player.points += 1 : player = player)
     }
 
     var acertos = [];
     var storytellerloses = false;
     players.forEach(element => {
-        element.voted == storyteller.name ? acertos.push(element) : acertos = acertos;
+        element.voted == storyteller.name ? acertos.push(element.name) : acertos = acertos;
     });
     storytellerloses = acertos.length == 0 || acertos.length == (players.length - 1) ?  true : false
 
@@ -94,9 +101,8 @@ export async function PointsSum(){
         players.forEach(element => {
             if(element.storyteller == false) {
                 element.points += 2;
-                GetExtraPoints(element)
+                GetExtraPoints(element);
             }
-            // UpdatePlayer(players[i])
         });
     } else {
         for(let i=0; i<players.length; i++) {
@@ -104,7 +110,6 @@ export async function PointsSum(){
                 players[i].points += 3; 
                 GetExtraPoints(players[i])
             }
-            // UpdatePlayer(players[i])
         };
     }
     return players
@@ -120,18 +125,39 @@ export async function clearAsyncStorage() {
   }
 
 export async function ChangeTurn(players){
-    for (let i = 0; i < players.length; i++) {
+    for (let i = 0; i <= players.length; i++) {
         if (players[i].storyteller === true) {
-            players[i + 1].storyteller = true;
+            const nextIndex = (i + 1) % players.length; 
+            players[nextIndex].storyteller = true;
             players[i].storyteller = false;
             break;
         }
     }
-
-    players.forEach(element => {
-        element.voted == "";
-        UpdatePlayer(element)
-
-    });
     return players
+}
+
+export async function SaveTurn(turn) {
+    await storage.storeData("turn", turn);
+}
+
+export async function GetTurn() {
+    let turn =  await storage.getData("turn");
+    if(!turn)
+        console.error('Não existe turnos anteriores');
+    return turn;
+}
+
+export async function FinishGame() {
+    let players = await GetAllPlayers();
+    let winners = [];
+    let maxPoints = -1;
+    players.filter(player => {
+        if (player.points === maxPoints) {
+            winners.push(player.name);
+          } else if (player.points > maxPoints) {
+            maxPoints = player.points;
+            winners = [player.name];
+          }
+    })
+    return winners
 }

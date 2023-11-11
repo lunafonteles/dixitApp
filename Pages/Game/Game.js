@@ -3,7 +3,7 @@ import { SectionList, StyleSheet, Text, View, Alert } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "../../Components/CustomButton";
 import PlayerGame from "./PlayerGame";
-import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum } from "../../Services/PlayerService";
+import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, FinishGame, SaveTurn, GetTurn } from "../../Services/PlayerService";
 import VoteModal from "./VoteModal";
 
 export default function Game({ navigation }) {
@@ -11,14 +11,26 @@ export default function Game({ navigation }) {
   const [player, setPlayer] = useState({});
   const [storyteller, setStoryteller] = useState(null);
   const [otherPlayers, setOtherPlayers] = useState(null);
-  const [turn, setTurn] = useState(1);
+  const [allPlayers, setAllPlayers] = useState(null);
+  const [turn, setTurn] = useState(null);
 
   const route = useRoute();
 
   useEffect(() => {
+    setAllPlayers(route.params);
     GetStoryteller(route.params).then((data) => setStoryteller([data]));
     GetOtherPlayers(route.params).then((data) => setOtherPlayers(data));
+    GetTurn().then((data) => {
+      if(!data) {
+        setTurn(1)
+      } else{
+        setTurn(data)
+      }
+    })
   }, [route.params]);
+
+  useEffect(() => {
+  }, [otherPlayers], [allPlayers], [turn])
 
   function finishRound() {
     var haveToVote = [];
@@ -34,7 +46,12 @@ export default function Game({ navigation }) {
 
   function updateTurn() {
     PointsSum().then(r => {
+      console.log(r)
       ChangeTurn(r).then(res => {
+        res.forEach(element => {
+          UpdatePlayer(element)
+        });
+        setAllPlayers(res);
         GetStoryteller(res).then(p => {
           setStoryteller([p])
         })
@@ -44,6 +61,8 @@ export default function Game({ navigation }) {
       })
     })
     setTurn(turn + 1)
+    SaveTurn(turn +1)
+
   }
 
   function saveVote(playerWithVote) {
@@ -57,6 +76,20 @@ export default function Game({ navigation }) {
       return player;
     })
     setOtherPlayers(updatedPlayers);
+  }
+
+  function finishGame() {
+    FinishGame().then(data => {
+      if(data.length > 1) {
+        console.log(data)
+        Alert.alert("Os vencedores são" + {data})
+      } else {
+        console.log(data)
+        let winner = data[0].name
+        Alert.alert("O vencedor é:" + {winner})
+      }
+    })
+    SaveTurn(null)
   }
 
   const openModal = (playerKey) => {
@@ -110,19 +143,24 @@ export default function Game({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        {turn && 
         <View>
           <Text style={styles.title}>Turno {turn}</Text>
         </View>
+        }
+        
         <View style={styles.sideBtn}>
           <CustomButton
-            onPress={() => Alert.alert("Acabou o jogo")}
+            onPress={finishGame}
             title="Finish"
             width={90}
           />
         </View>
       </View>
-      <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={route.params.filter((obj) => obj.name != player.name)} playingNow={player} updatevoted={saveVote}/>
-
+      {allPlayers && (
+        <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={allPlayers.filter((obj) => obj.name != player.name)} playingNow={player} updatevoted={saveVote}/>
+      )}
+      
       <View style={styles.list}>
         {storyteller && (
           <SectionList
