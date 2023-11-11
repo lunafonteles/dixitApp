@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
-export const storeData = async (key,value) => {
+export async function storeData(key,value) {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
@@ -9,16 +10,20 @@ export const storeData = async (key,value) => {
   }
 };
 
-export const editData = async (key,value) => {
+export async function editData(key,value) {
   try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.mergeItem(key, jsonValue);
+    if(!key) {
+      Alert.alert("Não pode alterar o nome do jogador")
+    } else {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.mergeItem(key, jsonValue);
+    }
   } catch (e) {
     console.error("error saving data" + key, e)
   }
 };
 
-export const getData = async (key) => {
+export async function getData(key) {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -27,7 +32,7 @@ export const getData = async (key) => {
   }
 };
 
-export const removeData = async (key) => {
+export async function removeData(key) {
   try {
     await AsyncStorage.removeItem(key);
   } catch (e) {
@@ -35,7 +40,7 @@ export const removeData = async (key) => {
   }
 };
 
-export const getAllKeys = async () => {
+export async function getAllKeys() {
   try {
     const arr = await AsyncStorage.getAllKeys()
     const filteredArr = arr.filter((nome) => !nome.includes("EXPO"));

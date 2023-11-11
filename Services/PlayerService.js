@@ -15,8 +15,7 @@ export async function UpdatePlayer(player){
 
 export async function GetPlayer(name){
     let player =  await storage.getData(name);
-    if(!player)
-        console.error('Player doesnt exist '+ name);
+    if(!player) return
     return player;
 }
 
@@ -37,10 +36,8 @@ export async function GetAllPlayers(){
 
 export async function DeletePlayer(name){
     let player =  await storage.getData(name);
-    if(player)
-        await storage.removeData(name);
-    else
-        console.error('Player doesnt exist '+ name);
+    if(player) await storage.removeData(name);
+    else return
 }
 
 export async function ResetAll(){
@@ -142,8 +139,7 @@ export async function SaveTurn(turn) {
 
 export async function GetTurn() {
     let turn =  await storage.getData("turn");
-    if(!turn)
-        console.error('Não existe turnos anteriores');
+    if(!turn) return
     return turn;
 }
 

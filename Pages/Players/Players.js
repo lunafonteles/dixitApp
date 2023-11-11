@@ -18,7 +18,7 @@ export default function Players({ navigation }, props) {
       setPreviousPlayers(true);
       return
     } 
-    Alert.alert("nao tem jogadores")
+    Alert.alert("Não tem jogadores")
   }
 
   function fetchPlayers() {
@@ -31,12 +31,12 @@ export default function Players({ navigation }, props) {
     
   }, []);
 
-  const closeModal = () => {
+  function closeModal() {
     setModalVisible(false);
     fetchPlayers();
   };
 
-  const UpdatePlayerState = (state, id) => {
+  function UpdatePlayerState(state, id) {
     if(state == 'DELETE') {
       fetchPlayers()
     } else if (state = 'UPDATE') {
@@ -45,7 +45,12 @@ export default function Players({ navigation }, props) {
     }
   }
 
-  const startGame = () => {
+  function addPlayer() {
+    setEditPlayer(0)
+    setModalVisible(true)
+  }
+
+  function startGame() {
     if(players.length < 3) {
       Alert.alert("Não existem jogadores suficientes")
     } else {
@@ -91,7 +96,7 @@ export default function Players({ navigation }, props) {
         <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} editPlayer={editPlayer} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers}/>
         <View style={styles.sideBtn}>
           <CustomButton
-            onPress={() => setModalVisible(true)}
+            onPress={addPlayer}
             title="Adicionar"
             width={90}
           />

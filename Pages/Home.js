@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions } from 'rea
 import { GetAllPlayers, GetTurn } from '../Services/PlayerService';
 export default function Home({ navigation }) {
 
-  const loadGame = () => {
+  function loadGame() {
     GetTurn().then(res => {
       if(!res) {
         Alert.alert("Não existe um jogo em andamento");

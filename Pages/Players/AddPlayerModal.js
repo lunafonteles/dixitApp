@@ -4,15 +4,12 @@ import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import { SavePlayer, GetPlayer, clearAsyncStorage, UpdatePlayer } from "../../Services/PlayerService";
 
-const AddPlayerModal = (props) => {
+export default function AddPlayerModal(props) {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
   var player = {
     name: name, color: color
-  }
-  if(props.editPlayer != 0) {
-
   }
 
   useEffect(() => {
@@ -27,7 +24,7 @@ const AddPlayerModal = (props) => {
     }
   }, [props.editPlayer]);
 
-  const addPlayer = (player) => {
+  function addPlayer(player) {
     if(props.previousPlayers === false) {
       clearAsyncStorage();
       props.setPreviousPlayers(true)
@@ -46,7 +43,7 @@ const AddPlayerModal = (props) => {
       transparent={true}
       visible={props.modalVisible}
       onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
+        props.closeModal()
       }}
     >
       <View style={styles.container}>
@@ -139,5 +136,3 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
-export default AddPlayerModal;

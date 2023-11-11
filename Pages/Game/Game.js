@@ -46,7 +46,6 @@ export default function Game({ navigation }) {
 
   function updateTurn() {
     PointsSum().then(r => {
-      console.log(r)
       ChangeTurn(r).then(res => {
         res.forEach(element => {
           UpdatePlayer(element)
@@ -62,7 +61,6 @@ export default function Game({ navigation }) {
     })
     setTurn(turn + 1)
     SaveTurn(turn +1)
-
   }
 
   function saveVote(playerWithVote) {
@@ -81,23 +79,21 @@ export default function Game({ navigation }) {
   function finishGame() {
     FinishGame().then(data => {
       if(data.length > 1) {
-        console.log(data)
-        Alert.alert("Os vencedores são" + {data})
+        Alert.alert("Os vencedores são: " + data)
       } else {
-        console.log(data)
-        let winner = data[0].name
-        Alert.alert("O vencedor é:" + {winner})
+        Alert.alert("O vencedor é: " + data[0])
       }
     })
     SaveTurn(null)
+    navigation.navigate('Home')
   }
 
-  const openModal = (playerKey) => {
+  function openModal (playerKey) {
     GetPlayer(playerKey).then((data) => setPlayer(data)) 
     setModalVisible(true);
   }
 
-  const closeModal = () => {
+  function closeModal() {
     setModalVisible(false);
   };
 

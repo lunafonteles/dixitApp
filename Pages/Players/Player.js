@@ -1,7 +1,7 @@
 import React from "react";
 import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "react-native-vector-icons";
-import { GetAllPlayers, DeletePlayer } from "../../Services/PlayerService"
+import { DeletePlayer } from "../../Services/PlayerService"
 
 export default function Player (props) {
     const player = {...props.item}
@@ -38,15 +38,13 @@ export default function Player (props) {
     });
 
     return <>
-      <TouchableOpacity  style={styles.tableContainer} onPress={() => props.onPress(player.name)}>
+      <TouchableOpacity  style={styles.tableContainer} onPress={() => updatePlayer(player.name)}>
               <Text style={styles.tableName}>{player.name} </Text>
               <View style={{flexDirection: "row"}}>
                 <Text style={styles.tableImg}>       </Text>
-                <Feather name="edit" size={25} color="white" onPress={() => updatePlayer(player.name)}></Feather>
                 <Feather name="trash-2" size={25} color="white" onPress={() => deletePlayer(player.name)}></Feather>
               </View>
       </TouchableOpacity >
       <Text></Text>
     </>
-    
 }
