@@ -2,7 +2,7 @@ import React from 'react';
 import CustomButton from '../Components/CustomButton';
 // import logo from '../assets/logo-clean.png'
 import logo from '../assets/logo2-clean.png'
-import background from '../assets/4.png'
+import background from '../assets/home-background.png'
 
 import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions, ImageBackground } from 'react-native';
 import { GetAllPlayers, GetTurn } from '../Services/PlayerService';

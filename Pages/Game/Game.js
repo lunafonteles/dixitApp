@@ -5,7 +5,7 @@ import CustomButton from "../../Components/CustomButton";
 import PlayerGame from "./PlayerGame";
 import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, FinishGame, SaveTurn, GetTurn } from "../../Services/PlayerService";
 import VoteModal from "./VoteModal";
-import background from '../../assets/3.webp'
+import background from '../../assets/game-background.png'
 
 export default function Game({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);

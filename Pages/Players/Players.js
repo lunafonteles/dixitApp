@@ -4,7 +4,7 @@ import AddPlayerModal from "./AddPlayerModal";
 import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
 import { FlatList, StyleSheet, View, Alert, ImageBackground } from "react-native";
 import Player from "./Player";
-import background from '../../assets/3.webp'
+import background from '../../assets/players-background.webp'
 
 export default function Players({ navigation }, props) {
   const [modalVisible, setModalVisible] = useState(false);
