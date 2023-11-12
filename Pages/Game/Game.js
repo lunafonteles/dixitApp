@@ -3,12 +3,14 @@ import { SectionList, StyleSheet, Text, View, Alert, ImageBackground } from "rea
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "../../Components/CustomButton";
 import PlayerGame from "./PlayerGame";
-import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, FinishGame, SaveTurn, GetTurn } from "../../Services/PlayerService";
+import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, SaveTurn, GetTurn } from "../../Services/PlayerService";
 import VoteModal from "./VoteModal";
 import background from '../../assets/game-background.png'
+import FinishModal from "./FinishModal";
 
 export default function Game({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [finishModalVisible, setFinishModalVisible] = useState(false);
   const [player, setPlayer] = useState({});
   const [storyteller, setStoryteller] = useState(null);
   const [otherPlayers, setOtherPlayers] = useState(null);
@@ -77,18 +79,6 @@ export default function Game({ navigation }) {
     setOtherPlayers(updatedPlayers);
   }
 
-  function finishGame() {
-    FinishGame().then(data => {
-      if(data.length > 1) {
-        Alert.alert("Os vencedores são: " + data)
-      } else {
-        Alert.alert("O vencedor é: " + data[0])
-      }
-    })
-    SaveTurn(null)
-    navigation.navigate('Home')
-  }
-
   function openModal (playerKey) {
     GetPlayer(playerKey).then((data) => setPlayer(data)) 
     setModalVisible(true);
@@ -96,7 +86,15 @@ export default function Game({ navigation }) {
 
   function closeModal() {
     setModalVisible(false);
-  };
+  }
+
+  function openFinishModal () {
+    setFinishModalVisible(true);
+  }
+
+  function closeFinishModal() {
+    setFinishModalVisible(false);
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -163,12 +161,14 @@ export default function Game({ navigation }) {
           
           <View style={styles.sideBtn}>
             <CustomButton
-              onPress={finishGame}
+              onPress={openFinishModal}
               title="Finish"
               width={90}
             />
           </View>
         </View>
+        <FinishModal modalVisible={finishModalVisible} closeModal={closeFinishModal}/>
+
         {allPlayers && (
           <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={allPlayers.filter((obj) => obj.name != player.name)} playingNow={player} updatevoted={saveVote}/>
         )}

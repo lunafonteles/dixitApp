@@ -9,7 +9,9 @@ export default function CustomButton(props) {
       justifyContent: "center",
       borderRadius: 10,
       backgroundColor: props.style ? props.style : "#464140",
-      marginBottom: 10
+      marginBottom: 10,
+      marginLeft: props.marginLeft ? props.marginLeft : 0,
+      marginRight: props.marginRight ? props.marginRight : 0,
     },
     pressable: {
       width: "100%",
