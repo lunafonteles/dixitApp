@@ -17,8 +17,13 @@ export default function FinishModal(props) {
             }
         })
         SaveTurn(null)
-        navigation.navigate('Home')
+        props.navigation(true)
     };
+
+    function close() {
+        props.closeModal()
+        props.navigation(false)
+    }
 
     return (
         <Modal
@@ -34,7 +39,7 @@ export default function FinishModal(props) {
                 <View style={styles.alinhamento}>
                     <CustomButton onPress={() => finishGame()} title="Sim" width={80} marginRight={30}/>
                     <CustomButton
-                        onPress={() => props.closeModal()}
+                        onPress={close}
                         title="Não"
                         width={80}
                         style="grey"

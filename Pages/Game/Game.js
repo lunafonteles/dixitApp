@@ -96,6 +96,12 @@ export default function Game({ navigation }) {
     setFinishModalVisible(false);
   }
 
+  function navegate(prop) {
+    if(prop) {
+      navigation.navigate('Home')
+    }
+  }
+
   const styles = StyleSheet.create({
     container: {
       height: "100%",
@@ -167,7 +173,7 @@ export default function Game({ navigation }) {
             />
           </View>
         </View>
-        <FinishModal modalVisible={finishModalVisible} closeModal={closeFinishModal}/>
+        <FinishModal modalVisible={finishModalVisible} closeModal={closeFinishModal} navigation={navegate}/>
 
         {allPlayers && (
           <VoteModal modalVisible={modalVisible} closeModal={closeModal} data={allPlayers.filter((obj) => obj.name != player.name)} playingNow={player} updatevoted={saveVote}/>
