@@ -30,7 +30,7 @@ export default function Players({ navigation }, props) {
 
   useEffect(() => {
 
-  }, []);
+  }, [editPlayer]);
 
   function closeModal() {
     setModalVisible(false);

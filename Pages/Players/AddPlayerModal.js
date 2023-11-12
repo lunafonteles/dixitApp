@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ColorPicker from "react-native-wheel-color-picker";
 import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
 import CustomButton from "../../Components/CustomButton";
@@ -12,6 +12,8 @@ export default function AddPlayerModal(props) {
   const [message, setMessage] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
 
+  const textInputRef = useRef(null);
+
   var player = {
     name: name, color: color
   }
@@ -20,11 +22,15 @@ export default function AddPlayerModal(props) {
     if (props.editPlayer !== 0) {
       GetPlayer(props.editPlayer).then(res => {
         setName(res.name);
-        setColor(res.color);
         if(res.color) {
+          setColor(res.color);
           setColorPickerVisible(true)
         }
       }) 
+    } else {
+      setName("");
+      setColor("")
+      setColorPickerVisible(false)
     }
   }, [props.editPlayer]);
 
@@ -51,6 +57,13 @@ export default function AddPlayerModal(props) {
     setAlertVisible(false)
   }
 
+  function AddColor() {
+    colorPickerVisible ? setColorPickerVisible(false) : setColorPickerVisible(true)
+    if (textInputRef.current) {
+      textInputRef.current.blur();
+    }
+  }
+
   return (
     <Modal
       animationType="slide"
@@ -64,27 +77,24 @@ export default function AddPlayerModal(props) {
         <View style={styles.modalView}>
           <Text style={styles.title}>Nome</Text>
           <TextInput
+          ref={textInputRef}
           style={styles.input}
           onChangeText={setName}
-          value={name} />
+          value={name}
+          onFocus={() => setColorPickerVisible(false)} />
 
           {colorPickerVisible ? (
             <ColorPicker
               color={color}
               onColorChangeComplete={color => setColor(color)}
               thumbSize={30}
-              sliderSize={30}
-              noSnap={true}
+              sliderHidden={true}
               row={false}
             />
           ) : null}
           <Text></Text>
           <CustomButton
-            onPress={() =>
-              colorPickerVisible
-                ? setColorPickerVisible(false)
-                : setColorPickerVisible(true)
-            }
+            onPress={AddColor}
             title={colorPickerVisible ? "Fechar cor" : props.editPlayer ? "Editar cor" : "Adicionar cor"}
             width={120}
             color={colorPickerVisible ? "grey" : "#483D8B"}
