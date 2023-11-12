@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import AddPlayerModal from "./AddPlayerModal";
 import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
-import { FlatList, StyleSheet, View, Alert, ImageBackground } from "react-native";
+import { StyleSheet, View, Alert, ImageBackground, SectionList } from "react-native";
 import Player from "./Player";
 import background from '../../assets/players-background.webp'
 
@@ -14,22 +14,22 @@ export default function Players({ navigation }, props) {
 
   async function fetchPreviousPlayers() {
     var arr = await GetAllPlayers();
-    if(arr.length > 0) {
+    if (arr.length > 0) {
       setPlayers(arr);
       setPreviousPlayers(true);
       return
-    } 
+    }
     Alert.alert("Não tem jogadores")
   }
 
   function fetchPlayers() {
     GetAllPlayers().then(res => {
-      setPlayers(res) 
+      setPlayers(res)
     })
   }
 
   useEffect(() => {
-    
+
   }, []);
 
   function closeModal() {
@@ -38,7 +38,7 @@ export default function Players({ navigation }, props) {
   };
 
   function UpdatePlayerState(state, id) {
-    if(state == 'DELETE') {
+    if (state == 'DELETE') {
       fetchPlayers()
     } else if (state = 'UPDATE') {
       setModalVisible(true)
@@ -52,7 +52,7 @@ export default function Players({ navigation }, props) {
   }
 
   function startGame() {
-    if(players.length < 3) {
+    if (players.length < 3) {
       Alert.alert("Não existem jogadores suficientes")
     } else {
       ResetGameData(players).then(res => {
@@ -63,15 +63,13 @@ export default function Players({ navigation }, props) {
   };
 
   const styles = StyleSheet.create({
-    flatContainer: {
-      // backgroundColor: "#6673B4",
+    container: {
       height: "100%",
       alignItems: "center",
-      paddingVertical: 100,
+      paddingVertical: 60,
       paddingHorizontal: 30,
       justifyContent: "flex-start",
-      // maxHeight: 300
-    },  
+    },
     background: {
       flex: 1,
       width: '100%',
@@ -79,29 +77,21 @@ export default function Players({ navigation }, props) {
     },
     sideBtn: {
       alignSelf: "flex-end",
-      position: "absolute",
-      top: 10,
-      right: -20,
-    },
-    description: {
-      marginTop: 50,
-      marginBottom: -50,
-      fontSize: 15
-    },
+      marginTop: -30,
+      marginBottom: 30
 
+    },
+    footer: {
+      marginTop: 20,
+      marginBottom: -40,
+      alignItems: "flex-end",
+    },
   });
-  
+
   return (
     <ImageBackground source={background} style={styles.background}>
-      <FlatList contentContainerStyle={styles.flatContainer}
-      data={players} 
-      renderItem={({item}) => 
-          <Player playerState={UpdatePlayerState} item={item} />
-      } 
-      keyExtractor={({name}) => name}
-      ListHeaderComponent={ () => {
-        return <>
-        <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} editPlayer={editPlayer} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers}/>
+      <View style={styles.container}>
+        <AddPlayerModal modalVisible={modalVisible} closeModal={closeModal} editPlayer={editPlayer} previousPlayers={previousPlayers} setPreviousPlayers={setPreviousPlayers} />
         <View style={styles.sideBtn}>
           <CustomButton
             onPress={addPlayer}
@@ -109,23 +99,22 @@ export default function Players({ navigation }, props) {
             width={90}
           />
         </View>
-        </>
-      }}
-      ListHeaderComponentStyle={{ position: "absolute", top: 10, right:"15%" }}
-      ListFooterComponent={() => {
-        return <>
-          <View>
+        {players && (
+          <SectionList
+            sections={[{ title: "Jogadores", data: players }]}
+            renderItem={({ item }) =>
+              <Player playerState={UpdatePlayerState} item={item} />}
+            keyExtractor={(item) => item.name}
+          />
+        )}
+        <View style={styles.footer}>
           <CustomButton
             onPress={fetchPreviousPlayers}
             title="Jogadores Anteriores"
           ></CustomButton>
           <CustomButton onPress={startGame} title="Iniciar"></CustomButton>
         </View>
-        </>
-      }}
-      ListFooterComponentStyle={{ position: "absolute", bottom: 10 }}
-      >
-      </FlatList>
+      </View>
     </ImageBackground>
   );
 }

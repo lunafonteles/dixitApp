@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as storage from "../Utils/storage";
-import { Alert } from "react-native";
 
 export async function SavePlayer(player){
     player.storyteller = false;

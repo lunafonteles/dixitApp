@@ -100,13 +100,11 @@ export default function Game({ navigation }) {
 
   const styles = StyleSheet.create({
     container: {
-      // backgroundColor: "#6673B4",
       height: "100%",
       alignItems: "center",
       paddingVertical: 100,
       paddingHorizontal: 30,
       justifyContent: "flex-start",
-      
     },
     background: {
       flex: 1,
@@ -148,6 +146,10 @@ export default function Game({ navigation }) {
       alignItems: "flex-start",
       height: 550,
     },
+    teste: {
+      marginTop: 10,
+      marginBottom: -40
+    }
   });
   return (
     <ImageBackground source={background} style={styles.background}>
@@ -186,7 +188,7 @@ export default function Game({ navigation }) {
           )}
 
           {otherPlayers && (
-            <SectionList 
+            <SectionList style={styles.teste}
               sections={[{ title: "Jogadores", data: otherPlayers }]}
               renderItem={({ item }) => 
                   <PlayerGame onPress={openModal} item={item}/>}
