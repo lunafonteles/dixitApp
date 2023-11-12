@@ -80,7 +80,7 @@ export default function VoteModal(props) {
         <View style={styles.modalView}>
           <Picker
             style={styles.input}
-            // selectedValue={props.playingNow.voted}
+            selectedValue={selected}
             onValueChange={(itemValue) => setSelected(itemValue)}
                       >
             {voteOptions.map((option) => (
