@@ -3,11 +3,15 @@ import ColorPicker from "react-native-wheel-color-picker";
 import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import { SavePlayer, GetPlayer, clearAsyncStorage, UpdatePlayer } from "../../Services/PlayerService";
+import CustomAlert from "../../Components/CustomAlert";
 
 export default function AddPlayerModal(props) {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [alertVisible, setAlertVisible] = useState(false);
+
   var player = {
     name: name, color: color
   }
@@ -25,6 +29,12 @@ export default function AddPlayerModal(props) {
   }, [props.editPlayer]);
 
   function addPlayer(player) {
+    if(!player.name) {
+      // setMessage("Favor definir um nome")
+      // setAlertVisible(true)
+      Alert.alert("Favor definir um nome")
+      return
+    }
     if(props.previousPlayers === false) {
       clearAsyncStorage();
       props.setPreviousPlayers(true)
@@ -36,6 +46,10 @@ export default function AddPlayerModal(props) {
     }
       props.closeModal();
   };
+
+  function closeAlert() {
+    setAlertVisible(false)
+  }
 
   return (
     <Modal
@@ -53,7 +67,6 @@ export default function AddPlayerModal(props) {
           style={styles.input}
           onChangeText={setName}
           value={name} />
-          <Text style={styles.title}>Color</Text>
 
           {colorPickerVisible ? (
             <ColorPicker
@@ -73,7 +86,7 @@ export default function AddPlayerModal(props) {
                 : setColorPickerVisible(true)
             }
             title={colorPickerVisible ? "Fechar cor" : props.editPlayer ? "Editar cor" : "Adicionar cor"}
-            width={90}
+            width={120}
             color={colorPickerVisible ? "grey" : "#483D8B"}
           />
           <View style={styles.alinhamento}>
@@ -81,6 +94,7 @@ export default function AddPlayerModal(props) {
               onPress={() => addPlayer(player)}
               title="Salvar"
               width={80}
+              marginRight={30}
             >
             </CustomButton>
             <CustomButton
@@ -88,11 +102,13 @@ export default function AddPlayerModal(props) {
               title="Cancelar"
               width={80}
               style="grey"
+              marginLeft={30}
             >
             </CustomButton>
           </View>
         </View>
       </View>
+      <CustomAlert visible={alertVisible} onClose={closeAlert} message={message}></CustomAlert>
     </Modal>
   );
 };
@@ -100,7 +116,7 @@ export default function AddPlayerModal(props) {
 const styles = StyleSheet.create({
   modalView: {
     margin: 20,
-    backgroundColor: "black",
+    backgroundColor: "#5465A8",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
