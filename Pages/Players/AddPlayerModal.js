@@ -22,17 +22,23 @@ export default function AddPlayerModal(props) {
     if (props.editPlayer !== 0) {
       GetPlayer(props.editPlayer).then(res => {
         setName(res.name);
-        if(res.color) {
-          setColor(res.color);
-          setColorPickerVisible(true)
-        }
-      }) 
+        setColor(res.color ? res.color : "");
+        setColorPickerVisible(!!res.color);
+      });
     } else {
       setName("");
-      setColor("")
-      setColorPickerVisible(false)
+      setColor("");
+      setColorPickerVisible(false);
     }
   }, [props.editPlayer]);
+  
+
+  function closeModalAndReset() {
+    setName("");
+    setColor("");
+    setColorPickerVisible(false);
+    props.closeModal();
+  }
 
   function addPlayer(player) {
     if(!player.name) {
@@ -46,7 +52,7 @@ export default function AddPlayerModal(props) {
       props.setPreviousPlayers(true)
     } 
     if (props.editPlayer != 0) {
-      UpdatePlayer(props.editPlayer)
+      UpdatePlayer(player)
     } else {
       SavePlayer(player);
     }
@@ -108,7 +114,7 @@ export default function AddPlayerModal(props) {
             >
             </CustomButton>
             <CustomButton
-              onPress={() => props.closeModal()}
+              onPress={() => closeModalAndReset()}
               title="Cancelar"
               width={80}
               style="grey"
