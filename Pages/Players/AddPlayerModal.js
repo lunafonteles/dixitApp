@@ -42,8 +42,6 @@ export default function AddPlayerModal(props) {
 
   function addPlayer(player) {
     if(!player.name) {
-      // setMessage("Favor definir um nome")
-      // setAlertVisible(true)
       Alert.alert("Favor definir um nome")
       return
     }
@@ -56,7 +54,7 @@ export default function AddPlayerModal(props) {
     } else {
       SavePlayer(player);
     }
-      props.closeModal();
+    closeModalAndReset()
   };
 
   function closeAlert() {
