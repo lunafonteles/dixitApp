@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import ColorPicker from "react-native-wheel-color-picker";
 import {Alert, Modal, StyleSheet, Text, View, TextInput} from "react-native";
-import CustomButton from "../../Components/CustomButton";
-import { SavePlayer, GetPlayer, clearAsyncStorage, UpdatePlayer } from "../../Services/PlayerService";
-import CustomAlert from "../../Components/CustomAlert";
+import CustomButton from "../../Components/customButton";
+import { SavePlayer, GetPlayer, clearAsyncStorage, UpdatePlayer } from "../../Services/playerService";
+import CustomAlert from "../../Components/customAlert";
 
 export default function AddPlayerModal(props) {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);

@@ -1,11 +1,11 @@
 import React from 'react';
-import CustomButton from '../Components/CustomButton';
-// import logo from '../assets/logo-clean.png'
-import logo from '../assets/logo2-clean.png'
-import background from '../assets/home-background.png'
+import CustomButton from '../Components/customButton';
+// import logo from '../assets/logo_clean.png'
+import logo from '../assets/logo2_clean.png'
+import background from '../assets/home_background.png'
 
 import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions, ImageBackground } from 'react-native';
-import { GetAllPlayers, GetTurn } from '../Services/PlayerService';
+import { GetAllPlayers, GetTurn } from '../Services/playerService';
 export default function Home({ navigation }) {
 
   function loadGame() {

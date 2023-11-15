@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import CustomButton from "../../Components/CustomButton";
+import CustomButton from "../../Components/customButton";
 
 export default function VoteModal(props) {
   const [voteOptions, setVoteOptions] = useState(props.data);
