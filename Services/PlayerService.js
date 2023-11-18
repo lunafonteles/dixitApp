@@ -46,6 +46,7 @@ export async function ResetAll(){
 
 export async function CreateGame(players){
     players[0].storyteller = true;
+    UpdatePlayer(players[0])
     SaveTurn(1)
 }
 
