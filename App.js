@@ -2,10 +2,10 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./Pages/Home";
-import Rules from "./Pages/Rules";
-import Players from "./Pages/Players/Players";
-import Game from "./Pages/Game/Game";
+import Home from "./Pages/home";
+import Rules from "./Pages/rules";
+import Players from "./Pages/Players/players";
+import Game from "./Pages/Game/game";
 
 export default function App() {
   const Stack = createNativeStackNavigator();

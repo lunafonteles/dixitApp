@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
-import background from '../assets/rules-background.webp'
+import background from '../assets/rules_background.webp'
 
 export default function Rules() {
     const styles = StyleSheet.create({

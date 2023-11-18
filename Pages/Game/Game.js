@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { SectionList, StyleSheet, Text, View, Alert, ImageBackground } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import CustomButton from "../../Components/CustomButton";
-import PlayerGame from "./PlayerGame";
-import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, SaveTurn, GetTurn } from "../../Services/PlayerService";
-import VoteModal from "./VoteModal";
-import background from '../../assets/game-background.png'
-import FinishModal from "./FinishModal";
+import CustomButton from "../../Components/customButton";
+import PlayerGame from "./playerGame";
+import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, SaveTurn, GetTurn } from "../../Services/playerService";
+import VoteModal from "./voteModal";
+import background from '../../assets/game_background.png'
+import FinishModal from "./finishModal";
 
 export default function Game({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);

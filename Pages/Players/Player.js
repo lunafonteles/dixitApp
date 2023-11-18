@@ -1,7 +1,7 @@
 import React from "react";
 import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "react-native-vector-icons";
-import { DeletePlayer } from "../../Services/PlayerService"
+import { DeletePlayer } from "../../Services/playerService"
 
 export default function Player (props) {
     const player = {...props.item}

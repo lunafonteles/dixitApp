@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import CustomButton from "../../Components/CustomButton";
-import AddPlayerModal from "./AddPlayerModal";
-import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/PlayerService";
+import CustomButton from "../../Components/customButton";
+import AddPlayerModal from "./addPlayerModal";
+import { GetAllPlayers, CreateGame, ResetGameData } from "../../Services/playerService";
 import { StyleSheet, View, Alert, ImageBackground, SectionList } from "react-native";
-import Player from "./Player";
-import background from '../../assets/players-background.webp'
+import Player from "./player";
+import background from '../../assets/players_background.webp'
 
 export default function Players({ navigation }, props) {
   const [modalVisible, setModalVisible] = useState(false);
