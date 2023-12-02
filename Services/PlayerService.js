@@ -105,8 +105,8 @@ export async function PointsSum(){
         for(let i=0; i<players.length; i++) {
             if(players[i].voted == storyteller.name || players[i].storyteller) {
                 players[i].points += 3; 
-                GetExtraPoints(players[i])
             }
+            GetExtraPoints(players[i])
         };
     }
     return players
