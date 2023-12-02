@@ -1,15 +1,27 @@
 {
   "expo": {
-    "name": "dixitApp",
+    "name": "Pixit",
     "slug": "dixitApp",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "ndk": "23.0.759985",
+      "buildType": "apk",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icone.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.lunafonteles.pixit"
+    },
     "extra": {
       "eas": {
         "projectId": "4adfefe0-cdc0-4333-b7aa-7f6c1356a765"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.lunafonteles.pixit"
     }
   }
 }
