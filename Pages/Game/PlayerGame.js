@@ -60,10 +60,10 @@ export default function PlayerGame (props) {
             color: "white",
             fontSize: 20
           },
-          backgorundPlayer: {
+          backgroundPlayer: {
             backgroundColor: player.color,
           },
-          backgorundVoted: {
+          backgroundVoted: {
             backgroundColor: voted?.color,
           },
           playerContainer: {
@@ -75,13 +75,13 @@ export default function PlayerGame (props) {
     return <>
       <TouchableOpacity style={styles.tableContainer} onPress={() => props.onPress(player.name)}>
               <View style={styles.playerContainer}>
-                <Text style={[styles.tableImg, styles.backgorundPlayer]}>{player.points}</Text>
+                <Text style={[styles.tableImg, styles.backgroundPlayer]}>{player.points}</Text>
                 <Text style={styles.tableName}>{player.name} </Text>
               </View>
               {player.storyteller === false && (
               <View style={styles.playerContainer}>
                 <Text style={styles.tableName}>Voto:</Text>
-                <Text style={[styles.tableImg, styles.backgorundVoted]}>{player.voted?.charAt(0)}</Text>
+                <Text style={[styles.tableImg, styles.backgroundVoted]}>{player.voted?.charAt(0)}</Text>
                 <Feather name="trash-2" size={25} color="white" onPress={() => openModalDelete()}></Feather>
 
                 <DeleteModal modalVisible={deleteModalVisible} closeModal={closeDeleteModal} player={player.name} playerState={deletePlayer}></DeleteModal>

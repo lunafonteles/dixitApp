@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, Text, View, TextInput } from "react-native";
+import React, { useEffect } from "react";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../../Components/customButton";
 
 export default function DeleteModal(props) {
