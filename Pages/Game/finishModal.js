@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Alert, Modal, StyleSheet, Text, View, TextInput } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../../Components/customButton";
 import { FinishGame, SaveTurn } from "../../Services/playerService";
 
