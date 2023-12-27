@@ -1,28 +1,19 @@
-import React, { useEffect } from "react";
-import { Alert, Modal, StyleSheet, Text, View, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Modal, StyleSheet, Text, View, TextInput } from "react-native";
 import CustomButton from "../../Components/customButton";
-import { FinishGame, SaveTurn } from "../../Services/playerService";
 
-export default function FinishModal(props) {
+export default function DeleteModal(props) {
+
     useEffect(() => {
-
     }, []);
 
-    function finishGame() {
-        FinishGame().then(data => {
-            if (data.length > 1) {
-                Alert.alert("Os vencedores são: " + data)
-            } else {
-                Alert.alert("O vencedor é: " + data[0])
-            }
-        })
-        SaveTurn(null)
-        props.navigation(true)
-    };
+    function deletePlayer() {
+        props.playerState('DELETE')
+        props.closeModal()
+    }
 
     function close() {
         props.closeModal()
-        props.navigation(false)
     }
 
     return (
@@ -36,9 +27,9 @@ export default function FinishModal(props) {
         >
             <View style={styles.container}>
                 <View style={styles.modalView}>
-                    <Text style={styles.title}>Tem certeza que quer finalizar o jogo?</Text>
+                    <Text style={styles.title}>Tem certeza que quer excluir o jogador?</Text>
                     <View style={styles.alinhamento}>
-                        <CustomButton onPress={() => finishGame()} title="Sim" width={80} marginRight={30} />
+                        <CustomButton onPress={() => deletePlayer()} title="Sim" width={80} marginRight={30} />
                         <CustomButton
                             onPress={close}
                             title="Não"
@@ -58,7 +49,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        padding: 8
     },
     modalView: {
         backgroundColor: "#FEE5D7",

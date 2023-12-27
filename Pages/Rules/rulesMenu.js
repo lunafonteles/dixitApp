@@ -1,26 +1,17 @@
 import React from 'react';
-import CustomButton from '../Components/customButton';
-// import logo from '../assets/logo-clean.png'
-import logo from '../assets/logo2_clean.png'
-import background from '../assets/home_background.png'
-
+import CustomButton from '../../Components/customButton';
+import logo from '../../assets/logo2_clean.png'
+import background from '../../assets/home_background.png'
 import { StyleSheet, Text, View, StatusBar, Alert, Image, Dimensions, ImageBackground } from 'react-native';
-import { GetAllPlayers, GetTurn } from '../Services/playerService';
-export default function Home({ navigation }) {
+import { GetAllPlayers, GetTurn } from '../../Services/playerService';
 
-  function loadGame() {
-    GetTurn().then(res => {
-      if(!res) {
-        Alert.alert("Não existe um jogo em andamento");
-      } else {
-        GetAllPlayers().then(players => navigation.navigate('Jogo', players))
-      }
-    });
-  }
+export default function RulesMenu({ navigation }) {
+  const width = Dimensions.get('screen').width;
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -50,17 +41,18 @@ export default function Home({ navigation }) {
         <Text></Text>
         <CustomButton
           onPress={() =>
-            navigation.navigate('Jogadores')}
-          title="Novo Jogo"
-        ></CustomButton>
-        <CustomButton
-          onPress={loadGame}
-          title="Continuar Jogo"
+            navigation.navigate('Regras')}
+          title="Padrão"
         ></CustomButton>
         <CustomButton
           onPress={() =>
-            navigation.navigate('Regras')}
-          title="Regras"
+            navigation.navigate('Regras-party')}
+          title="Pixit Party"
+        ></CustomButton>
+        <CustomButton
+          onPress={() =>
+            navigation.navigate('Regras-time')}
+          title="Em times"
         ></CustomButton>
         <StatusBar style="auto" />
       </View>

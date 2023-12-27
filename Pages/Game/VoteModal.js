@@ -27,9 +27,13 @@ export default function VoteModal(props) {
     props.closeModal();
   }
 
+  function close() {
+    props.closeModal();
+  }
+
   const styles = StyleSheet.create({
     modalView: {
-      margin: 20,
+      // margin: 20,
       backgroundColor: "black",
       borderRadius: 20,
       padding: 35,
@@ -45,30 +49,32 @@ export default function VoteModal(props) {
       elevation: 5,
     },
     container: {
-      display: "flex",
+      flex: 1,
       alignItems: "center",
-      justifyContent: "space-between",
+      justifyContent: "center",
     },
     alinhamento: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-evenly",
     },
-    title: {
-      color: "white",
-      marginTop: 10,
-    },
     input: {
-      backgroundColor: "#FFF",
+      backgroundColor: "white",
       width: 250,
       height: 40,
       marginBottom: 20,
       borderRadius: 5,
     },
+    btnContainer: {
+      width: 250,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    }
   });
 
   return (
-    <Modal
+    <Modal 
       animationType="slide"
       transparent={true}
       visible={props.modalVisible}
@@ -91,11 +97,19 @@ export default function VoteModal(props) {
               />
             ))}
           </Picker>
-          <CustomButton
-            onPress={() => voteOnClose()}
-            title="OK"
-            width={80}
-          ></CustomButton>
+          <View style={styles.btnContainer}>
+            <CustomButton
+              onPress={() => voteOnClose()}
+              title="Confirmar"
+              width={80}
+            ></CustomButton>
+              <CustomButton
+              onPress={() => close()}
+              title="Fechar"
+              width={80}
+              style="grey"
+            ></CustomButton>
+          </View>
         </View>
       </View>
     </Modal>

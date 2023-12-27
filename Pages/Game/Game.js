@@ -3,7 +3,7 @@ import { SectionList, StyleSheet, Text, View, Alert, ImageBackground } from "rea
 import { useRoute } from "@react-navigation/native";
 import CustomButton from "../../Components/customButton";
 import PlayerGame from "./playerGame";
-import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, SaveTurn, GetTurn } from "../../Services/playerService";
+import { GetStoryteller, GetOtherPlayers, GetPlayer, ChangeTurn, UpdatePlayer, PointsSum, SaveTurn, GetTurn, DeletePlayer } from "../../Services/playerService";
 import VoteModal from "./voteModal";
 import background from '../../assets/game_background.png'
 import FinishModal from "./finishModal";
@@ -102,6 +102,20 @@ export default function Game({ navigation }) {
     }
   }
 
+  function deletePlayer(prop) {
+    if(prop) {
+      if(allPlayers.length > 3) {
+        DeletePlayer(prop);
+        const newOthers = otherPlayers.filter(item => item.name !== prop);
+        setOtherPlayers(newOthers)
+        const newAll = allPlayers.filter(item => item.name !== prop);
+        setAllPlayers(newAll)
+      } else {
+        Alert.alert("Não é permitido continuar com menos de 3 jogadores")
+      }
+    }
+  }
+
   const styles = StyleSheet.create({
     container: {
       height: "100%",
@@ -186,7 +200,7 @@ export default function Game({ navigation }) {
               renderItem={({ item, section }) => (
                 <>
                   <Text style={styles.aux}>{section.title}</Text>
-                  <PlayerGame onPress={() => {}} item={item}/>
+                  <PlayerGame onPress={() => {}} item={item} playerState={deletePlayer}/>
                 </>
               )}
               keyExtractor={(item) => item.name}
@@ -197,7 +211,7 @@ export default function Game({ navigation }) {
             <SectionList style={styles.teste}
               sections={[{ title: "Jogadores", data: otherPlayers }]}
               renderItem={({ item }) => 
-                  <PlayerGame onPress={openModal} item={item}/>}
+                  <PlayerGame onPress={openModal} item={item} playerState={deletePlayer}/>}
               keyExtractor={(item) => item.name}
             />
           )}

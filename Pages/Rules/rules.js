@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
-import background from '../assets/rules_background.webp'
+import background from '../../assets/rules_background.webp'
 
 export default function Rules() {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            // backgroundColor: '#6673B4',
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             alignItems: 'center',
             justifyContent: 'flex-start',
             padding: 35,
@@ -38,7 +38,7 @@ export default function Rules() {
             <View style={styles.container}>
                 <Text style={styles.title}>Início</Text>
                 <Text style={styles.text}>
-                    Cada jogador recebe 6 cartas e ao final do turno todos recebem outra carta para repor a que foi usada
+                    Cada jogador recebe um pino verde e 6 cartas e ao final do turno todos recebem outra carta para repor a que foi usada. Caso sejam apenas 3 jogadores, são 7 cartas.
                 </Text>
                 <Text></Text>
                 <Text style={styles.title}>Narração</Text>
