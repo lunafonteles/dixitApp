@@ -106,7 +106,6 @@ export default function Game({ navigation }) {
     if(prop) {
       if(allPlayers.length > 3) {
         DeletePlayer(prop);
-        console.log(prop)
         const newOthers = otherPlayers.filter(item => item.name !== prop);
         setOtherPlayers(newOthers)
         const newAll = allPlayers.filter(item => item.name !== prop);

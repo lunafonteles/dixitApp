@@ -31,7 +31,6 @@ export default function PlayerGame (props) {
 
     function deletePlayer(prop) {
       if(prop == 'DELETE') {
-        console.log(player.name)
         props.playerState(player.name)
       }
     }

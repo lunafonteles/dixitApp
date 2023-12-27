@@ -5,7 +5,6 @@ import CustomButton from "../../Components/customButton";
 export default function DeleteModal(props) {
 
     useEffect(() => {
-        console.log(props)
     }, []);
 
     function deletePlayer() {
