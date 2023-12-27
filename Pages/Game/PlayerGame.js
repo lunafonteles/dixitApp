@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from "react";
 import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 import { GetPlayer } from "../../Services/playerService";
+import { Feather } from "react-native-vector-icons";
+import DeleteModal from "./deleteModal";
 
 export default function PlayerGame (props) {
     const [voted, setVoted] = useState({});
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const player = {...props.item}
 
@@ -16,6 +19,21 @@ export default function PlayerGame (props) {
       GetPlayer(player.voted).then((data) => {
         setVoted(data)
       })
+    }
+
+    function openModalDelete() {
+      setDeleteModalVisible(true)
+    }
+
+    function closeDeleteModal() {
+      setDeleteModalVisible(false);
+    }
+
+    function deletePlayer(prop) {
+      if(prop == 'DELETE') {
+        console.log(player.name)
+        props.playerState(player.name)
+      }
     }
 
     const styles = StyleSheet.create({
@@ -65,6 +83,9 @@ export default function PlayerGame (props) {
               <View style={styles.playerContainer}>
                 <Text style={styles.tableName}>Voto:</Text>
                 <Text style={[styles.tableImg, styles.backgorundVoted]}>{player.voted?.charAt(0)}</Text>
+                <Feather name="trash-2" size={25} color="white" onPress={() => openModalDelete()}></Feather>
+
+                <DeleteModal modalVisible={deleteModalVisible} closeModal={closeDeleteModal} player={player.name} playerState={deletePlayer}></DeleteModal>
               </View>
               )}
       </TouchableOpacity>

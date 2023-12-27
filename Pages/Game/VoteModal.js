@@ -33,7 +33,7 @@ export default function VoteModal(props) {
 
   const styles = StyleSheet.create({
     modalView: {
-      margin: 20,
+      // margin: 20,
       backgroundColor: "black",
       borderRadius: 20,
       padding: 35,
@@ -58,12 +58,8 @@ export default function VoteModal(props) {
       flexDirection: "row",
       justifyContent: "space-evenly",
     },
-    title: {
-      color: "white",
-      marginTop: 10,
-    },
     input: {
-      backgroundColor: "#FFF",
+      backgroundColor: "white",
       width: 250,
       height: 40,
       marginBottom: 20,
@@ -104,13 +100,14 @@ export default function VoteModal(props) {
           <View style={styles.btnContainer}>
             <CustomButton
               onPress={() => voteOnClose()}
-              title="OK"
+              title="Confirmar"
               width={80}
             ></CustomButton>
               <CustomButton
               onPress={() => close()}
               title="Fechar"
               width={80}
+              style="grey"
             ></CustomButton>
           </View>
         </View>
