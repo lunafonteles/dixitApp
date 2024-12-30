@@ -84,7 +84,13 @@ export async function PointsSum(){
     var storyteller = players.find(player => player.storyteller);
 
     function GetExtraPoints(player) {
-        players.forEach(element => player.name == element.voted && player.name != storyteller.name ? player.points += 1 : player = player)
+        let extraPoints = 0;
+        players.forEach(element => {
+            if (player.name === element.voted && player.name !== storyteller.name && extraPoints < 3) {
+                extraPoints += 1;
+            }
+        });
+        player.points += extraPoints;
     }
 
     var acertos = [];

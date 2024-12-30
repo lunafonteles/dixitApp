@@ -60,6 +60,11 @@ export default function PlayerGame (props) {
             color: "white",
             fontSize: 20
           },
+          pointsColor: {
+            textShadowColor: 'black',
+            textShadowOffset: {width: 1, height: 1},
+            textShadowRadius: 2, 
+          },
           backgroundPlayer: {
             backgroundColor: player.color,
           },
@@ -75,7 +80,7 @@ export default function PlayerGame (props) {
     return <>
       <TouchableOpacity style={styles.tableContainer} onPress={() => props.onPress(player.name)}>
               <View style={styles.playerContainer}>
-                <Text style={[styles.tableImg, styles.backgroundPlayer]}>{player.points}</Text>
+                <Text style={[styles.tableImg, styles.backgroundPlayer, styles.pointsColor]}>{player.points}</Text>
                 <Text style={styles.tableName}>{player.name} </Text>
               </View>
               {player.storyteller === false && (

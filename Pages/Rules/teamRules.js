@@ -56,7 +56,8 @@ export default function TeamRules() {
                 <Text style={styles.title}>Pontuação</Text>
                 <Text style={styles.text}>
                     Se a carta do narrador foi escolhida por todos ou nenhum jogador, o narrador não pontua enquanto que todos os outros ganham 2 pontos cada.
-                    Em outros casos tanto o narrador quanto quem acertou ganha 3 pontos. Além disso, os jogadores que não são o narrador podem ter pontos extras por cada pessoa que votar em suas cartas.
+                    Em outros casos tanto o narrador quanto quem acertou ganha 3 pontos. Além disso, os jogadores que não são o narrador podem ter pontos extras 
+                    por cada pessoa que votar em suas cartas (máximo 3 pontos).
                 </Text>
             </View>
         </ImageBackground>
