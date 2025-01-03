@@ -98,16 +98,16 @@ export default function VoteModal(props) {
             ))}
           </Picker>
           <View style={styles.btnContainer}>
-            <CustomButton
-              onPress={() => voteOnClose()}
-              title="Confirmar"
-              width={80}
-            ></CustomButton>
               <CustomButton
               onPress={() => close()}
               title="Fechar"
               width={80}
               style="grey"
+            ></CustomButton>
+            <CustomButton
+              onPress={() => voteOnClose()}
+              title="Confirmar"
+              width={80}
             ></CustomButton>
           </View>
         </View>

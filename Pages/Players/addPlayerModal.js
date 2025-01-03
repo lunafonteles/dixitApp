@@ -9,33 +9,36 @@ export default function AddPlayerModal(props) {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
+  const [order, setOrder] = useState(null);
   const [message, setMessage] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
 
   const textInputRef = useRef(null);
 
   var player = {
-    name: name, color: color
+    name: name, color: color, order: order
   }
 
   useEffect(() => {
     if (props.editPlayer !== 0) {
       GetPlayer(props.editPlayer).then(res => {
         setName(res.name);
+        setOrder(res.order != null ? res.order : null);
         setColor(res.color ? res.color : "");
         setColorPickerVisible(!!res.color);
       });
     } else {
       setName("");
       setColor("");
+      setOrder(null);
       setColorPickerVisible(false);
     }
   }, [props.editPlayer]);
   
-
   function closeModalAndReset() {
     setName("");
     setColor("");
+    setOrder(null);
     setColorPickerVisible(false);
     props.closeModal();
   }
@@ -52,7 +55,7 @@ export default function AddPlayerModal(props) {
     if (props.editPlayer != 0) {
       UpdatePlayer(player)
     } else {
-      SavePlayer(player);
+      SavePlayer(player, player.order);
     }
     closeModalAndReset()
   };
@@ -67,6 +70,13 @@ export default function AddPlayerModal(props) {
       textInputRef.current.blur();
     }
   }
+
+  function handleOrderChange(input) {
+    // Apenas números positivos maiores que 0
+    if (/^[1-9]\d*$/.test(input) || input === "") {
+      setOrder(input === "" ? null : Number(input));
+    }
+  };
 
   return (
     <Modal
@@ -86,6 +96,15 @@ export default function AddPlayerModal(props) {
           onChangeText={setName}
           value={name}
           onFocus={() => setColorPickerVisible(false)} />
+
+          <Text style={styles.title}>Ordem</Text>
+          <TextInput
+          ref={textInputRef}
+          style={styles.input}
+          keyboardType="numeric"
+          onChangeText={handleOrderChange}
+          value={order !== null ? String(order) : ""}
+          onFocus={() => setColorPickerVisible(false)}/>
 
           {colorPickerVisible ? (
             <ColorPicker
@@ -163,6 +182,8 @@ const styles = StyleSheet.create({
     width: 250,
     height: 40,
     marginTop: 10,
+    marginBottom: 10,
     borderRadius: 5,
+    paddingLeft: 10
   },
 });

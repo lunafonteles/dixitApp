@@ -34,14 +34,15 @@ export default function Player (props) {
           tableImg: {
             backgroundColor: player.color,
             height: 30,
-            marginRight: 10
+            marginRight: 10,
           }
     });
 
     return <>
       <TouchableOpacity  style={styles.tableContainer} onPress={() => updatePlayer(player.name)}>
               <Text style={styles.tableName}>{player.name} </Text>
-              <View style={{flexDirection: "row"}}>
+              <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                <Text style={styles.tableName}>{player.order !== null ? String(player.order) : ""} </Text>
                 <Text style={styles.tableImg}>       </Text>
                 <Feather name="trash-2" size={25} color="white" onPress={() => deletePlayer(player.name)}></Feather>
               </View>

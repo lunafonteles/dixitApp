@@ -86,7 +86,7 @@ export default function PlayerGame (props) {
               {player.storyteller === false && (
               <View style={styles.playerContainer}>
                 <Text style={styles.tableName}>Voto:</Text>
-                <Text style={[styles.tableImg, styles.backgroundVoted]}>{player.voted?.charAt(0)}</Text>
+                <Text style={[styles.tableImg, styles.backgroundVoted, styles.pointsColor]}>{player.voted?.charAt(0)}</Text>
                 <Feather name="trash-2" size={25} color="white" onPress={() => openModalDelete()}></Feather>
 
                 <DeleteModal modalVisible={deleteModalVisible} closeModal={closeDeleteModal} player={player.name} playerState={deletePlayer}></DeleteModal>

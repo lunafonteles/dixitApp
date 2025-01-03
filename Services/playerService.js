@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as storage from "../Utils/storage";
 
-export async function SavePlayer(player){
+export async function SavePlayer(player, order = 0){
+    player.order = order;
     player.storyteller = false;
     player.points = 0;
     player.voted = "";
@@ -44,9 +45,18 @@ export async function ResetAll(){
     data = await AsyncStorage.clear()
 }
 
-export async function CreateGame(players){
-    players[0].storyteller = true;
-    UpdatePlayer(players[0])
+export async function CreateGame(players, orderPlayers){
+    if (orderPlayers) {
+        const playerWithMinOrder = players.sort((a, b) => a.order - b.order)[0];
+        playerWithMinOrder.storyteller = true;
+        UpdatePlayer(playerWithMinOrder)
+    } else {
+        players[0].storyteller = true;
+        players.forEach(player => {
+            player.order = null;
+            UpdatePlayer(player)
+        });
+    }
     SaveTurn(1)
 }
 
@@ -130,7 +140,20 @@ export async function clearAsyncStorage() {
 export async function ChangeTurn(players){
     for (let i = 0; i <= players.length; i++) {
         if (players[i].storyteller === true) {
-            const nextIndex = (i + 1) % players.length; 
+            let nextIndex;
+            let currentOrder = players[i].order;
+
+            if (currentOrder !== "") {
+                let nextOrder = currentOrder + 1;
+
+                nextIndex = players.findIndex(player => player.order === nextOrder);
+
+                if (nextIndex === -1) {
+                    nextIndex = players.findIndex(player => player.order === 1);
+                }
+            } else {
+                nextIndex = (i + 1) % players.length;
+            }
             players[nextIndex].storyteller = true;
             players[i].storyteller = false;
             break;
